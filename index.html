@@ -5,80 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>中部地方 復習クイズ</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #f0f4f8; --surface: #ffffff; --surface2: #e8edf2;
-    --border: rgba(0,0,0,0.09); --border2: rgba(0,0,0,0.16);
-    --text: #18202a; --text2: #506070; --text3: #90a0b0;
-    --green-bg: #e6f2d6; --green-text: #2a5208; --green-border: #8cc44a;
-    --red-bg: #fceaea; --red-text: #7a2020; --red-border: #e89090;
-    --yellow-bg: #fef7e0; --yellow-text: #5c4200; --yellow-border: #e8c84a;
-    --accent: #1a5080; --accent2: #2a70b0;
-    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 18px;
-  }
-  body { font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 1.5rem 1rem 3rem; display: flex; align-items: flex-start; justify-content: center; }
-  .container { width: 100%; max-width: 600px; }
-  .header { text-align: center; margin-bottom: 2rem; }
-  .header .kamon { font-size: 40px; margin-bottom: 10px; display: block; }
-  .header .subtitle { font-size: 12px; letter-spacing: 0.12em; color: var(--text3); margin-bottom: 8px; }
-  .header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; color: var(--accent); }
-  .header .total { font-size: 14px; color: var(--text2); }
-  .section-wrap { margin-bottom: 1.5rem; }
-  .section-label { font-size: 13px; color: var(--text2); margin-bottom: 10px; font-weight: 500; }
-  .section-row { display: flex; gap: 7px; flex-wrap: wrap; }
-  .section-btn { padding: 7px 13px; font-size: 13px; font-family: inherit; background: var(--surface); border: 1px solid var(--border2); border-radius: 20px; cursor: pointer; color: var(--text2); transition: all 0.15s; font-weight: 500; }
-  .section-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-  .start-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
-  .start-item { background: var(--surface2); border-radius: var(--radius-sm); padding: 12px 14px; border-left: 3px solid var(--accent2); }
-  .start-item .label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
-  .start-item .value { font-size: 14px; font-weight: 600; color: var(--accent); }
-  .progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
-  .progress-label { font-size: 12px; color: var(--text2); white-space: nowrap; }
-  .progress-bar-bg { flex: 1; height: 4px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
-  .q-category { font-size: 11px; color: var(--text3); letter-spacing: 0.06em; margin-bottom: 8px; font-weight: 600; }
-  .q-text { font-size: 17px; line-height: 1.8; color: var(--text); white-space: pre-line; font-weight: 500; }
-  .input-row { display: flex; gap: 8px; margin-bottom: 10px; }
-  .ans-input { flex: 1; padding: 13px 15px; font-size: 16px; font-family: inherit; border: 1.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s; }
-  .ans-input:focus { border-color: var(--accent); }
-  .ans-input:disabled { background: var(--surface2); }
-  .btn { display: block; width: 100%; padding: 14px; font-size: 15px; font-family: inherit; font-weight: 600; text-align: center; background: var(--surface); border: 1.5px solid var(--border2); border-radius: var(--radius-md); cursor: pointer; color: var(--text); transition: all 0.15s; }
-  .btn:hover { background: var(--surface2); }
-  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .btn-primary:hover { background: #133d60; }
-  .btn-sm { padding: 11px 18px; font-size: 14px; width: auto; display: inline-block; }
-  .hint-toggle { padding: 8px 14px; font-size: 13px; font-family: inherit; background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: 20px; cursor: pointer; color: var(--yellow-text); margin-bottom: 10px; transition: background 0.15s; font-weight: 500; display: block; }
-  .hint-toggle:hover { background: #fdefc0; }
-  .hint-box { background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 10px; }
-  .hint-label { font-size: 11px; color: var(--yellow-text); font-weight: 700; margin-bottom: 8px; }
-  .hint-choices { display: flex; flex-wrap: wrap; gap: 6px; }
-  .hint-choice { padding: 5px 12px; background: var(--surface); border: 1px solid var(--yellow-border); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--yellow-text); transition: background 0.15s; font-weight: 500; }
-  .hint-choice:hover { background: #fdefc0; }
-  .answer-box { border-radius: var(--radius-sm); padding: 1rem 1.25rem; font-size: 15px; line-height: 1.7; margin-bottom: 10px; }
-  .answer-box.correct { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green-text); }
-  .answer-box.wrong { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red-text); }
-  .answer-box.neutral { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
-  .answer-box .mark { font-weight: 700; margin-bottom: 6px; font-size: 16px; }
-  .answer-box .correct-ans { font-weight: 600; margin-bottom: 8px; }
-  .answer-box .exp { font-size: 13px; opacity: 0.85; white-space: pre-line; }
-  .multi-check-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .multi-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1.5px solid var(--border2); border-radius: 20px; font-size: 14px; cursor: pointer; background: var(--surface); font-weight: 500; transition: background 0.15s; }
-  .multi-check:hover { background: var(--surface2); }
-  .multi-check input { width: 15px; height: 15px; cursor: pointer; }
-  .note-box { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
-  .result-score { font-size: 48px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 4px; text-align: center; color: var(--accent); }
-  .result-msg { font-size: 15px; color: var(--text2); text-align: center; margin-bottom: 1.5rem; }
-  .result-list { display: flex; flex-direction: column; margin-bottom: 1.5rem; }
-  .result-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .result-item .icon { font-weight: 700; min-width: 18px; font-size: 14px; }
-  .result-item .icon.ok { color: var(--green-text); }
-  .result-item .icon.ng { color: var(--red-text); }
-  .result-item .icon.memo { color: var(--text2); }
-  .result-item .detail { color: var(--text2); line-height: 1.5; }
-  .action-row { display: flex; gap: 8px; }
-  .action-row .btn { flex: 1; }
-  .hidden { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f0f4f8; --surface: #ffffff; --surface2: #e8edf2;
+  --border: rgba(0,0,0,0.09); --border2: rgba(0,0,0,0.16);
+  --text: #18202a; --text2: #506070; --text3: #90a0b0;
+  --green-bg: #e6f2d6; --green-text: #2a5208; --green-border: #8cc44a;
+  --red-bg: #fceaea; --red-text: #7a2020; --red-border: #e89090;
+  --yellow-bg: #fef7e0; --yellow-text: #5c4200; --yellow-border: #e8c84a;
+  --accent: #1a5080; --accent2: #2a70b0;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 18px;
+}
+body { font-family: 'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 1.5rem 1rem 3rem; display: flex; align-items: flex-start; justify-content: center; }
+.container { width: 100%; max-width: 600px; }
+.header { text-align: center; margin-bottom: 2rem; }
+.header .kamon { font-size: 40px; margin-bottom: 10px; display: block; }
+.header .subtitle { font-size: 12px; letter-spacing: 0.12em; color: var(--text3); margin-bottom: 8px; }
+.header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; color: var(--accent); }
+.header .total { font-size: 14px; color: var(--text2); }
+.section-wrap { margin-bottom: 1.5rem; }
+.section-label { font-size: 13px; color: var(--text2); margin-bottom: 10px; font-weight: 500; }
+.section-row { display: flex; gap: 7px; flex-wrap: wrap; }
+.section-btn { padding: 7px 13px; font-size: 13px; font-family: inherit; background: var(--surface); border: 1px solid var(--border2); border-radius: 20px; cursor: pointer; color: var(--text2); transition: all 0.15s; font-weight: 500; }
+.section-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.start-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.start-item { background: var(--surface2); border-radius: var(--radius-sm); padding: 12px 14px; border-left: 3px solid var(--accent2); }
+.start-item .label { font-size: 11px; color: var(--text3); margin-bottom: 3px; }
+.start-item .value { font-size: 14px; font-weight: 600; color: var(--accent); }
+.progress-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+.progress-label { font-size: 12px; color: var(--text2); white-space: nowrap; }
+.progress-bar-bg { flex: 1; height: 4px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+.q-category { font-size: 11px; color: var(--text3); letter-spacing: 0.06em; margin-bottom: 8px; font-weight: 600; }
+.q-text { font-size: 17px; line-height: 1.8; color: var(--text); white-space: pre-line; font-weight: 500; }
+.input-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.ans-input { flex: 1; padding: 13px 15px; font-size: 16px; font-family: inherit; border: 1.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s; }
+.ans-input:focus { border-color: var(--accent); }
+.ans-input:disabled { background: var(--surface2); }
+.btn { display: block; width: 100%; padding: 14px; font-size: 15px; font-family: inherit; font-weight: 600; text-align: center; background: var(--surface); border: 1.5px solid var(--border2); border-radius: var(--radius-md); cursor: pointer; color: var(--text); transition: all 0.15s; }
+.btn:hover { background: var(--surface2); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: #133d60; }
+.btn-sm { padding: 11px 18px; font-size: 14px; width: auto; display: inline-block; }
+.hint-toggle { padding: 8px 14px; font-size: 13px; font-family: inherit; background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: 20px; cursor: pointer; color: var(--yellow-text); margin-bottom: 10px; transition: background 0.15s; font-weight: 500; display: block; }
+.hint-toggle:hover { background: #fdefc0; }
+.hint-box { background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 10px; }
+.hint-label { font-size: 11px; color: var(--yellow-text); font-weight: 700; margin-bottom: 8px; }
+.hint-choices { display: flex; flex-wrap: wrap; gap: 6px; }
+.hint-choice { padding: 5px 12px; background: var(--surface); border: 1px solid var(--yellow-border); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--yellow-text); transition: background 0.15s; font-weight: 500; }
+.hint-choice:hover { background: #fdefc0; }
+.answer-box { border-radius: var(--radius-sm); padding: 1rem 1.25rem; font-size: 15px; line-height: 1.7; margin-bottom: 10px; }
+.answer-box.correct { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green-text); }
+.answer-box.wrong { background: var(--red-bg); border: 1px solid var(--red-border); color: var(--red-text); }
+.answer-box.neutral { background: var(--surface2); border: 1px solid var(--border); color: var(--text); }
+.answer-box .mark { font-weight: 700; margin-bottom: 6px; font-size: 16px; }
+.answer-box .correct-ans { font-weight: 600; margin-bottom: 8px; }
+.answer-box .exp { font-size: 13px; opacity: 0.85; white-space: pre-line; }
+.multi-check-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.multi-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1.5px solid var(--border2); border-radius: 20px; font-size: 14px; cursor: pointer; background: var(--surface); font-weight: 500; transition: background 0.15s; }
+.multi-check:hover { background: var(--surface2); }
+.multi-check input { width: 15px; height: 15px; cursor: pointer; }
+.note-box { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+.result-score { font-size: 48px; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 4px; text-align: center; color: var(--accent); }
+.result-msg { font-size: 15px; color: var(--text2); text-align: center; margin-bottom: 1.5rem; }
+.result-list { display: flex; flex-direction: column; margin-bottom: 1.5rem; }
+.result-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.result-item .icon { font-weight: 700; min-width: 18px; font-size: 14px; }
+.result-item .icon.ok { color: var(--green-text); }
+.result-item .icon.ng { color: var(--red-text); }
+.result-item .icon.memo { color: var(--text2); }
+.result-item .detail { color: var(--text2); line-height: 1.5; }
+.action-row { display: flex; gap: 8px; }
+.action-row .btn { flex: 1; }
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
@@ -100,9 +100,14 @@
         </div>
       </div>
       <div class="start-info">
-        <div class="start-item"><div class="label">大問1</div><div class="value">工業地帯・工業地域</div></div>
-        <div class="start-item"><div class="label">大問2</div><div class="value">世界遺産・県の特色</div></div>
-        <div class="start-item"><div class="label">大問3</div><div class="value">近畿地方・地図・地形</div></div>
+        <div class="start-item">
+          <div class="label">大問1</div>
+          <div class="value">工業地帯・工業地域</div>
+        </div>
+        <div class="start-item">
+          <div class="label">大問2</div>
+          <div class="value">世界遺産・県の特色</div>
+        </div>
       </div>
       <button class="btn btn-primary" onclick="startQuiz()">クイズスタート →</button>
     </div>
@@ -140,245 +145,687 @@
 </div>
 
 <script>
-const allQuestions = [
-
-  // ===== 大問1 工業地帯・工業地域 =====
-  { section:1, category:"大問1・問1A", text:"工業生産額が日本一の工業地帯「□工業地帯」の□は？（漢字2字）", type:"free", hints:["中京","阪神","京浜","北九州"], answer:"中京", explanation:"中京工業地帯（ちゅうきょうこうぎょうちたい）が正解。愛知・三重・岐阜に広がります。" },
-  { section:1, category:"大問1・問1C", text:"長野県にある、電子工業が発達した湖の名は？（○○湖）\nヒント：諏訪市・岡谷市がある", type:"free", hints:["諏訪湖","琵琶湖","浜名湖","中禅寺湖"], answer:"諏訪湖", explanation:"諏訪湖（すわこ）が正解。長野県中部にある湖で、周辺に精密機器・電子工業が集積しています。" },
-  { section:1, category:"大問1・問2", text:"東海工業地域について正しいものはどれ？\nア：紙の生産額が日本一の県のみに広がる\nイ：鉄鋼の生産額が日本一の県のみに広がる\nウ：臨海部の東海市では鉄鋼の生産がさかん\nエ：浜松市は県の東部に位置する", type:"free", hints:["ウ（東海市で鉄鋼）","ア（紙の生産）","イ（鉄鋼の県）","エ（浜松市は西部）"], answer:"ア（紙の生産額が日本一）", altAnswers:["ア"], explanation:"アの富士市（静岡県）が正解。東海市（愛知県）は鉄鋼業がさかんです。東海工業地域は静岡県に広がる工業地域で、エは誤り（浜松市は西部）。" },
-  { section:1, category:"大問1・問3", text:"諏訪湖周辺でかつてさかんだった「□をつくる製糸業」の□は？", type:"free", hints:["生糸","綿糸","麻糸","毛糸"], answer:"生糸", explanation:"生糸（きいと）が正解。蚕（かいこ）から取れる糸で、諏訪湖周辺はかつて製糸業の中心地でした。" },
-  { section:1, category:"大問1・問4", text:"中京工業地帯から自動車が輸出される、貿易額が全国3位以内に入る貿易港は？（○○港）", type:"free", hints:["名古屋港","横浜港","神戸港","大阪港"], answer:"名古屋港", explanation:"名古屋港（なごやこう）が正解。自動車の輸出額が日本最大の貿易港です。" },
-  { section:1, category:"大問1・問5", text:"愛知県にある、古くから陶磁器の生産がさかんな都市は？（○○市）\nヒント：「せともの」という言葉の語源", type:"free", hints:["瀬戸市","多治見市","常滑市","豊田市"], answer:"瀬戸市", explanation:"瀬戸市（せとし）が正解。「せともの」という言葉の語源となった陶磁器の産地です。" },
-  { section:1, category:"大問1・問6", text:"静岡県・長野県を通る高速道路の組み合わせは？\nア：静岡県＝関越・長野県＝東名\nイ：静岡県＝関越・長野県＝中央\nウ：静岡県＝東名 ・長野県＝関越\nエ：静岡県＝東名 ・長野県＝中央", type:"free", answer:"エ（静岡県＝東名・長野県＝中央）", altAnswers:["エ"], explanation:"エが正解。静岡県（東海工業地域）は東名高速道路、長野県は中央自動車道が通っています。" },
-  { section:1, category:"大問1・問7", text:"諏訪湖（長野県中部）の位置として正しいのはどこ？\nア：長野県北部　イ：長野県中部\nウ：長野県南部　エ：長野県東部", type:"free", hints:["イ（長野県中部）","ア（北部）","ウ（南部）","エ（東部）"], answer:"イ（長野県中部）", altAnswers:["イ"], explanation:"諏訪湖は長野県の中部に位置しています。北部には県庁所在地の長野市があります。" },
-  { section:1, category:"大問1・問8-1", text:"国内のめがねわくの90%以上を生産している、北陸工業地域の都市は？（○○市）", type:"free", hints:["鯖江市","金沢市","富山市","輪島市"], answer:"鯖江市", explanation:"鯖江市（さばえし）が正解。福井県に位置し、めがねフレームの一大産地です。" },
-  { section:1, category:"大問1・問10", text:"豊田市（愛知県）がある工業地帯は？", type:"free", hints:["中京工業地帯・自動車工業","阪神工業地帯・鉄鋼業","東海工業地域・製紙","北陸工業地域・繊維"], answer:"中京工業地帯", altAnswers:["中京"], explanation:"豊田市は中京工業地帯に属し、トヨタ自動車の企業城下町として自動車工業がさかんです。" },
-  { section:1, category:"大問1・問11", text:"中部地方の工業地帯・地域のうち、最も西に位置するのはどの都市？\nア：鯖江市　イ：浜松市\nウ：豊田市　エ：諏訪市", type:"free", hints:["鯖江市（福井県）","浜松市（静岡県）","豊田市（愛知県）","諏訪市（長野県）"], answer:"鯖江市（福井県）", altAnswers:["鯖江市","福井県"], explanation:"鯖江市（福井県）が最も西に位置しています。" },
-
-  // ===== 大問2 世界遺産・県の特色 =====
-  { section:2, category:"大問2・問1A", text:"岐阜県にある合掌造り集落の世界文化遺産の地名は？", type:"free", hints:["白川郷","五箇山","飛騨","郡上"], answer:"白川郷", explanation:"白川郷（しらかわごう）が正解。富山県の五箇山とともに世界文化遺産に登録されています。" },
-  { section:2, category:"大問2・問2", text:"岐阜県（飛騨・美濃）の南部「美濃国」があった地域に広がる平野は？", type:"free", hints:["濃尾平野","越後平野","庄内平野","関東平野"], answer:"濃尾平野", explanation:"濃尾平野（のうびへいや）が正解。美濃（岐阜県南部）と尾張（愛知県西部）にまたがる平野です。" },
-  { section:2, category:"大問2・問3", text:"富山県のI・IIの正誤の組み合わせは？\nI：若狭湾沿岸には多くの原子力発電所がある\nII：黒部ダムでは水力発電が行われている", type:"free", hints:["ウ（I誤・II正）","ア（I正・II正）","イ（I正・II誤）","エ（I誤・II誤）"], answer:"ウ（I誤・II正）", altAnswers:["ウ","I誤・II正"], explanation:"I→誤：若狭湾は主に福井県にあります（富山県ではない）。\nII→正：黒部ダムは富山県にある日本最大級のダムで水力発電に使われています。" },
-  { section:2, category:"大問2・問4A", text:"岐阜県（美濃・飛騨）と富山県を流れる川で、富山市付近から富山湾に注ぐ川は？（○○川）", type:"free", hints:["神通川","天竜川","木曽川","長良川"], answer:"黒部川", explanation:"黒部川（くろべがわ）が正解。長野県から流れ出て富山県を通り富山湾に注ぎます。" },
-  { section:2, category:"大問2・問4A", text:"赤石山脈から駿河湾に注ぐ川は？（○○川）"下流域には茶の生産がさかんな牧之原があります", type:"free", hints:["神通川","大井川","信濃川","天竜川"], answer:"大井川", explanation:"大井川が正解。静岡県を流れています。" },
-  { section:2, category:"大問2・問4A", text:"飛騨山脈の北部から流れ、ダムや水力発電所が多く作られている川は？（○○川）", type:"free", hints:["黒部川","天竜川","木曽川","長良川"], answer:"神通川", explanation:"神通川（じんづうがわ）が正解。岐阜県から流れ出て富山県を通り富山湾に注ぎます。四大公害病の一つ「イタイイタイ病」の原因となった川です。" },
-  { section:2, category:"大問2・問5-1", text:"日本アルプスの山脈で、一番南にある山脈は？（○○山脈）", type:"free", hints:["赤石山脈","飛騨山脈","木曽山脈","鈴鹿山脈"], answer:"赤石山脈", explanation:"赤石山脈（あかいしさんみゃく）が正解。南アルプスともよばれ、赤石岳（3120m）などの高峰があります。" },
-  { section:2, category:"大問2・問5-1", text:"矢作（やはぎ）川と関係のある用水は？（○○用水）", type:"free", hints:["明治用水","愛知用水","安積疏水","豊川用水"], answer:"明治用水", explanation:"明治用水が岡崎平野に引かれています。" },
-  { section:2, category:"大問2・問5-1", text:"信濃川の下流域で最も多く栽培されている稲の品種名（カタカナ）は？", type:"free", hints:["新潟県の米の生産量は1位です"], answer:"コシヒカリ", explanation:"越後平野でさかんに生産されています" },
-  { section:2, category:"大問2・問5-1", text:"大井川の下流域にある牧之原では何の畑が多くありますか？", type:"free", hints:["茶畑","くわ畑","田んぼ"], answer:"茶畑", explanation:"茶畑の地図記号は、3つの点が三角にならんでいます" },
-  { section:2, category:"大問2・問5-2", text:"山梨県の県庁所在地は？（○○市）", type:"free", hints:["甲府市","山梨市","笛吹市","南アルプス市"], answer:"甲府市", explanation:"甲府市（こうふし）が正解。山梨県の県庁所在地で、甲府盆地の中心に位置します。" },
-  { section:2, category:"大問2・問5-3", text:"山梨県・静岡県の2つの県を流れる三大急流の1つは？（○○川）", type:"free", hints:["富士川","天竜川","球磨川","最上川"], answer:"富士川", explanation:"富士川（ふじかわ）が正解。山梨県から静岡県を流れ、駿河湾に注ぐ日本三大急流のひとつです。" },
-  { section:2, category:"大問2・問6-1", text:"富士市（静岡県）でさかんな工業は？", type:"free", hints:["製紙・パルプ工業","鉄鋼業","自動車工業","石油化学"], answer:"製紙・パルプ工業", altAnswers:["製紙"],explanation:"製紙・パルプ工業が正解。富士山の豊富な水と木材を活かした製紙業が発達しています。" },
-  { section:2, category:"大問2・問6-2", text:"東京駅と新大阪駅を結ぶ新幹線の名前は？（○○新幹線）", type:"free", hints:["東海道新幹線","山陽新幹線","北陸新幹線","東北新幹線"], answer:"東海道新幹線", explanation:"東海道新幹線（とうかいどうしんかんせん）が正解。1964年開業の日本最初の新幹線です。" },
-  { section:2, category:"大問2・問7-1", text:"新潟県と東京都を結ぶ高速道路は？（○○自動車道）", type:"free", hints:["関越自動車道","東名高速道路","中央自動車道","常磐自動車道"], answer:"関越自動車道", explanation:"関越自動車道（かんえつじどうしゃどう）が正解。東京〜新潟を結びます。" },
-  { section:2, category:"大問2・問7-2", text:"新潟市が位置する平野について正しいものは？\nア：乾田を湿田にした　イ：信濃川・阿賀野川が日本海に注ぐ\nウ：焼津港がある　エ：兼六園がある", type:"free", hints:["イ（信濃川・阿賀野川）","ア（乾田を湿田）","ウ（焼津港）","エ（兼六園）"], answer:"イ（信濃川・阿賀野川）", altAnswers:["イ"], explanation:"イが正解（越後平野）。ア→湿田を乾田に改良が正しい。ウ→焼津港は静岡県。エ→兼六園は石川県金沢市。" },
-  { section:2, category:"大問2・問8", text:"東京駅から北陸新幹線で富山県の新高岡駅へ行くとき、通る県を2つ選びなさい。\nア：群馬県　イ：神奈川県　ウ：石川県　エ：長野県", type:"multi", choices:["ア","イ","ウ","エ"], hints:["ア","イ","ウ","エ"], hintDetails:["ア：北陸新幹線は群馬県（高崎）を通る","イ：北陸新幹線は神奈川県を通らない","ウ：北陸新幹線は石川県（金沢）を通る","エ：北陸新幹線は長野県（長野）を通る"], answer:["ア","エ"], explanation:"アとエが正解。北陸新幹線は東京→埼玉→群馬→長野→新潟→富山→石川→福井の順に通ります。新高岡駅は富山県なので、その手前の群馬県・長野県を通ります。" },
-  { section:2, category:"大問2・問9", text:"山梨県と長野県の産量1位・2位を争うくだものは？（2022年）", type:"free", hints:["ぶどう","りんご","もも","おうとう"], answer:"ぶどう", explanation:"ぶどうが正解。山梨県が生産量1位、長野県が2位（2022年）です。甲府盆地・松本盆地でさかんに栽培されています。" },
-  { section:2, category:"大問2・問10", text:"山梨県の「となりの県との境」にある日本一高い山は？（○○山）", type:"free", hints:["富士山","北岳","奥穂高岳","間ノ岳"], answer:"富士山", explanation:"富士山（ふじさん）が正解。山梨県と静岡県の境に位置する標高3776mの日本最高峰です。" },
-  { section:2, category:"大問2・問11", text:"新潟県にある、かつて金の生産地で現在はトキが飼育されている島は？（○○島）", type:"free", hints:["佐渡島","粟島","能登島","飛島"], answer:"佐渡島", altAnswers:["佐渡"], explanation:"佐渡島（さどしま）が正解。日本最大の島（本州・北海道・九州・四国を除く）で、トキの保護でも知られます。" },
-  { section:2, category:"大問2・A積雪", text:"新潟県の平野では積雪期間が長いため米の「□□」地帯となっています。□は？（漢字2字）", type:"free", hints:["単作","二毛作","二期作","輪作"], answer:"単作", explanation:"単作（たんさく）が正解。積雪で農業できる期間が短く、1年に1回しか作物を作れません。" },
-  { section:2, category:"大問2・問5-3", text:"諏訪湖からほぼ真南に流れ出て太平洋に注ぐ川の名前は？（○○川）", type:"free", hints:["富士川","天竜川","球磨川","最上川"], answer:"天竜川", explanation:"長野県から静岡県へ流れます" },
-  { section:2, category:"大問2・B信濃川", text:"日本で最も長い川で、新潟県を通り日本海に注ぐ川は？（○○川）", type:"free", hints:["信濃川","利根川","石狩川","天竜川"], answer:"信濃川", explanation:"信濃川（しなのがわ）が正解。全長367kmで日本最長。新潟県では越後平野を流れます。" },
-  { section:2, category:"大問2・C飛騨山脈", text:"富山県南東部にある、黒部ダムがある山脈は？（○○山脈）\nヒント：北アルプスともよばれる", type:"free", hints:["飛騨山脈","赤石山脈","木曽山脈","鈴鹿山脈"], answer:"飛騨山脈", explanation:"飛騨山脈（ひださんみゃく）が正解。北アルプスともよばれ、黒部ダム・立山連峰などがあります。" },
-  { section:2, category:"大問2・D渥美半島", text:"愛知県南東部にある半島で、豊川用水が引かれ電照菊の栽培がさかんな半島は？（○○半島）", type:"free", hints:["渥美半島","知多半島","伊豆半島","能登半島"], answer:"渥美半島", explanation:"渥美半島（あつみはんとう）が正解。愛知県南東部に突き出た半島で、電照菊・キャベツなどの栽培がさかんです。" },
-  { section:2, category:"大問2・E電照菊", text:"菊を栽培するとき電灯を用いる目的は？（20字以内）", type:"text", answer:"開花の時期をおくらせて、出荷の時期を調整するため。", explanation:"菊は日照時間が短くなると花が咲く性質があります。電灯で照らすことで開花を遅らせ、市場に出回りにくい時期に出荷して高値で売ることができます。" },
-  { section:2, category:"大問2・E電照菊", text:"棚田での農作業に人手が必要な理由は？（20字以内）", type:"text", answer:"農業機械が使えないから。", explanation:"棚田は一区画の面積が小さく、大きな機械を使うことができません。" },
-  { section:2, category:"大問2・F北陸新幹線", text:"石川県金沢市に駅がある「□新幹線」の□は？（漢字2字）", type:"free", hints:["北陸","東海道","山陽","上越"], answer:"北陸", explanation:"北陸新幹線（ほくりくしんかんせん）が正解。東京〜金沢〜福井・敦賀を結んでいます。" },
-  { section:2, category:"大問2・Gフェーン", text:"山頂をこえて乾燥した空気が吹き下ろすとき、100m下降するごとに約1℃温度が上がる現象をカタカナで何という？", type:"free", hints:["フェーン現象","モンスーン","エルニーニョ","ラニーニャ"], answer:"フェーン現象", altAnswers:["フェーン"], explanation:"フェーン現象（フェーンげんしょう）が正解。新潟県・富山県などで発生しやすく、2024年8月に浜松市で41.1℃を記録した原因のひとつです。" },
-  { section:2, category:"大問2・H静岡", text:"静岡県には政令指定都市が2つあります。県庁所在地の静岡市ともう1つの□市は？", type:"free", hints:["静岡市と浜松市","静岡市と富士市","浜松市と沼津市","静岡市と三島市"], answer:"浜松市", altAnswers:["浜松"], explanation:"静岡市（県庁所在地）と浜松市の2つが政令指定都市です。浜松市は楽器・オートバイの製造で有名です。" },
-
+var allQuestions = [
+  {
+    section: 1, category: "大問1・問1A",
+    text: "工業生産額が日本一の工業地帯「□工業地帯」の□は？（漢字2字）",
+    type: "free",
+    hints: ["中京", "阪神", "京浜", "北九州"],
+    answer: "中京",
+    explanation: "中京工業地帯が正解。愛知・三重・岐阜に広がります。"
+  },
+  {
+    section: 1, category: "大問1・問1C",
+    text: "長野県にある、電子工業が発達した湖の名は？（○○湖）\nヒント：諏訪市・岡谷市がある",
+    type: "free",
+    hints: ["諏訪湖", "琵琶湖", "浜名湖", "中禅寺湖"],
+    answer: "諏訪湖",
+    explanation: "諏訪湖が正解。長野県中部にある湖で、周辺に精密機器・電子工業が集積しています。"
+  },
+  {
+    section: 1, category: "大問1・問2",
+    text: "東海工業地域について正しいものはどれ？\nア：紙の生産額が日本一の県のみに広がる\nイ：鉄鋼の生産額が日本一の県のみに広がる\nウ：臨海部の東海市では鉄鋼の生産がさかん\nエ：浜松市は県の東部に位置する",
+    type: "free",
+    hints: ["ア（紙の生産）", "イ（鉄鋼の県）", "ウ（東海市で鉄鋼）", "エ（浜松市は西部）"],
+    answer: "ア",
+    altAnswers: ["ア（紙の生産額が日本一）"],
+    explanation: "アが正解。富士市（静岡県）は紙・パルプ生産が有名。東海市は鉄鋼業がさかんで誤り。浜松市は静岡県西部なのでエも誤り。"
+  },
+  {
+    section: 1, category: "大問1・問3",
+    text: "諏訪湖周辺でかつてさかんだった「□をつくる製糸業」の□は？",
+    type: "free",
+    hints: ["生糸", "綿糸", "麻糸", "毛糸"],
+    answer: "生糸",
+    explanation: "生糸が正解。蚕（かいこ）から取れる糸で、諏訪湖周辺はかつて製糸業の中心地でした。"
+  },
+  {
+    section: 1, category: "大問1・問4",
+    text: "中京工業地帯から自動車が輸出される、貿易額が全国上位の貿易港は？（○○港）",
+    type: "free",
+    hints: ["名古屋港", "横浜港", "神戸港", "大阪港"],
+    answer: "名古屋港",
+    explanation: "名古屋港が正解。自動車の輸出額が日本最大の貿易港です。"
+  },
+  {
+    section: 1, category: "大問1・問5",
+    text: "愛知県にある、古くから陶磁器の生産がさかんな都市は？（○○市）\nヒント：「せともの」という言葉の語源",
+    type: "free",
+    hints: ["瀬戸市", "多治見市", "常滑市", "豊田市"],
+    answer: "瀬戸市",
+    explanation: "瀬戸市が正解。「せともの」という言葉の語源となった陶磁器の産地です。"
+  },
+  {
+    section: 1, category: "大問1・問6",
+    text: "静岡県・長野県を通る高速道路の組み合わせは？\nア：静岡県＝関越・長野県＝東名\nイ：静岡県＝関越・長野県＝中央\nウ：静岡県＝東名・長野県＝関越\nエ：静岡県＝東名・長野県＝中央",
+    type: "free",
+    hints: ["エ（静岡県＝東名・長野県＝中央）", "ア", "イ", "ウ"],
+    answer: "エ",
+    altAnswers: ["エ（静岡県＝東名・長野県＝中央）"],
+    explanation: "エが正解。静岡県は東名高速道路、長野県は中央自動車道が通っています。"
+  },
+  {
+    section: 1, category: "大問1・問7",
+    text: "諏訪湖（長野県）の位置として正しいのはどこ？\nア：長野県北部\nイ：長野県中部\nウ：長野県南部\nエ：長野県東部",
+    type: "free",
+    hints: ["イ（長野県中部）", "ア（北部）", "ウ（南部）", "エ（東部）"],
+    answer: "イ",
+    altAnswers: ["イ（長野県中部）"],
+    explanation: "諏訪湖は長野県の中部に位置しています。北部には県庁所在地の長野市があります。"
+  },
+  {
+    section: 1, category: "大問1・問8",
+    text: "国内のめがねフレームの90%以上を生産している、北陸工業地域の都市は？（○○市）",
+    type: "free",
+    hints: ["鯖江市", "金沢市", "富山市", "輪島市"],
+    answer: "鯖江市",
+    explanation: "鯖江市が正解。福井県に位置し、めがねフレームの一大産地です。"
+  },
+  {
+    section: 1, category: "大問1・問10",
+    text: "豊田市（愛知県）がある工業地帯は？",
+    type: "free",
+    hints: ["中京工業地帯", "阪神工業地帯", "東海工業地域", "北陸工業地域"],
+    answer: "中京工業地帯",
+    altAnswers: ["中京"],
+    explanation: "豊田市は中京工業地帯に属し、トヨタ自動車の企業城下町として自動車工業がさかんです。"
+  },
+  {
+    section: 1, category: "大問1・問11",
+    text: "中部地方の工業地帯・地域のうち、最も西に位置するのはどの都市？\nア：鯖江市\nイ：浜松市\nウ：豊田市\nエ：諏訪市",
+    type: "free",
+    hints: ["ア（鯖江市・福井県）", "イ（浜松市・静岡県）", "ウ（豊田市・愛知県）", "エ（諏訪市・長野県）"],
+    answer: "ア",
+    altAnswers: ["ア（鯖江市・福井県）", "鯖江市"],
+    explanation: "鯖江市（福井県）が最も西に位置しています。"
+  },
+  {
+    section: 2, category: "大問2・問1A",
+    text: "岐阜県にある合掌造り集落の世界文化遺産の地名は？",
+    type: "free",
+    hints: ["白川郷", "五箇山", "飛騨", "郡上"],
+    answer: "白川郷",
+    explanation: "白川郷が正解。富山県の五箇山とともに世界文化遺産に登録されています。"
+  },
+  {
+    section: 2, category: "大問2・問2",
+    text: "岐阜県南部「美濃国」があった地域に広がる平野は？",
+    type: "free",
+    hints: ["濃尾平野", "越後平野", "庄内平野", "関東平野"],
+    answer: "濃尾平野",
+    explanation: "濃尾平野が正解。美濃（岐阜県南部）と尾張（愛知県西部）にまたがる平野です。"
+  },
+  {
+    section: 2, category: "大問2・問3",
+    text: "富山県のI・IIの正誤の組み合わせは？\nI：若狭湾沿岸には多くの原子力発電所がある\nII：黒部ダムでは水力発電が行われている",
+    type: "free",
+    hints: ["ウ（I誤・II正）", "ア（I正・II正）", "イ（I正・II誤）", "エ（I誤・II誤）"],
+    answer: "ウ",
+    altAnswers: ["ウ（I誤・II正）", "I誤・II正"],
+    explanation: "I→誤：若狭湾は主に福井県にあります（富山県ではない）。\nII→正：黒部ダムは富山県にある日本最大級のダムで水力発電に使われています。"
+  },
+  {
+    section: 2, category: "大問2・問4A-1",
+    text: "富山市付近を流れて富山湾に注ぐ川は？（○○川）",
+    type: "free",
+    hints: ["神通川", "天竜川", "木曽川", "長良川"],
+    answer: "神通川",
+    explanation: "神通川が正解。岐阜県から流れ出て富山県を通り富山湾に注ぎます。イタイイタイ病の原因となった川です。"
+  },
+  {
+    section: 2, category: "大問2・問4A-2",
+    text: "赤石山脈から駿河湾に注ぐ川は？（○○川）\n下流域には茶の生産がさかんな牧之原があります",
+    type: "free",
+    hints: ["大井川", "神通川", "信濃川", "天竜川"],
+    answer: "大井川",
+    explanation: "大井川が正解。静岡県を流れ駿河湾に注ぎます。"
+  },
+  {
+    section: 2, category: "大問2・問4A-3",
+    text: "飛騨山脈の北部から流れ、黒部ダムがある川は？（○○川）",
+    type: "free",
+    hints: ["黒部川", "神通川", "木曽川", "長良川"],
+    answer: "黒部川",
+    explanation: "黒部川が正解。長野県から富山県を通り富山湾に注ぎます。黒部ダムで水力発電が行われています。"
+  },
+  {
+    section: 2, category: "大問2・問5-1",
+    text: "日本アルプスの山脈で、一番南にある山脈は？（○○山脈）",
+    type: "free",
+    hints: ["赤石山脈", "飛騨山脈", "木曽山脈", "鈴鹿山脈"],
+    answer: "赤石山脈",
+    explanation: "赤石山脈が正解。南アルプスともよばれ、赤石岳（3120m）などの高峰があります。"
+  },
+  {
+    section: 2, category: "大問2・問5-2",
+    text: "矢作（やはぎ）川と関係のある用水は？（○○用水）",
+    type: "free",
+    hints: ["明治用水", "愛知用水", "安積疏水", "豊川用水"],
+    answer: "明治用水",
+    explanation: "明治用水が岡崎平野に引かれています。"
+  },
+  {
+    section: 2, category: "大問2・問5-3",
+    text: "信濃川の下流域で最も多く栽培されている稲の品種名（カタカナ）は？",
+    type: "free",
+    hints: ["コシヒカリ", "ひとめぼれ", "あきたこまち", "ササニシキ"],
+    answer: "コシヒカリ",
+    explanation: "新潟県の越後平野でさかんに生産されています。"
+  },
+  {
+    section: 2, category: "大問2・問5-4",
+    text: "大井川の下流域にある牧之原では何の畑が多くありますか？",
+    type: "free",
+    hints: ["茶畑", "くわ畑", "田んぼ", "みかん畑"],
+    answer: "茶畑",
+    explanation: "茶畑の地図記号は、3つの点が三角にならんでいます。"
+  },
+  {
+    section: 2, category: "大問2・問5-5",
+    text: "山梨県の県庁所在地は？（○○市）",
+    type: "free",
+    hints: ["甲府市", "山梨市", "笛吹市", "南アルプス市"],
+    answer: "甲府市",
+    explanation: "甲府市が正解。山梨県の県庁所在地で、甲府盆地の中心に位置します。"
+  },
+  {
+    section: 2, category: "大問2・問5-6",
+    text: "山梨県・静岡県の2つの県を流れる三大急流の1つは？（○○川）",
+    type: "free",
+    hints: ["富士川", "天竜川", "球磨川", "最上川"],
+    answer: "富士川",
+    explanation: "富士川が正解。山梨県から静岡県を流れ、駿河湾に注ぐ日本三大急流のひとつです。"
+  },
+  {
+    section: 2, category: "大問2・問6-1",
+    text: "富士市（静岡県）でさかんな工業は？",
+    type: "free",
+    hints: ["製紙・パルプ工業", "鉄鋼業", "自動車工業", "石油化学"],
+    answer: "製紙・パルプ工業",
+    altAnswers: ["製紙"],
+    explanation: "製紙・パルプ工業が正解。富士山の豊富な水と木材を活かした製紙業が発達しています。"
+  },
+  {
+    section: 2, category: "大問2・問6-2",
+    text: "東京駅と新大阪駅を結ぶ新幹線の名前は？（○○新幹線）",
+    type: "free",
+    hints: ["東海道新幹線", "山陽新幹線", "北陸新幹線", "東北新幹線"],
+    answer: "東海道新幹線",
+    explanation: "東海道新幹線が正解。1964年開業の日本最初の新幹線です。"
+  },
+  {
+    section: 2, category: "大問2・問7-1",
+    text: "新潟県と東京都を結ぶ高速道路は？（○○自動車道）",
+    type: "free",
+    hints: ["関越自動車道", "東名高速道路", "中央自動車道", "常磐自動車道"],
+    answer: "関越自動車道",
+    explanation: "関越自動車道が正解。東京〜新潟を結びます。"
+  },
+  {
+    section: 2, category: "大問2・問7-2",
+    text: "新潟市が位置する平野について正しいものは？\nア：乾田を湿田にした\nイ：信濃川・阿賀野川が日本海に注ぐ\nウ：焼津港がある\nエ：兼六園がある",
+    type: "free",
+    hints: ["イ（信濃川・阿賀野川）", "ア（乾田を湿田）", "ウ（焼津港）", "エ（兼六園）"],
+    answer: "イ",
+    altAnswers: ["イ（信濃川・阿賀野川）"],
+    explanation: "イが正解（越後平野）。ア→湿田を乾田に改良が正しい。ウ→焼津港は静岡県。エ→兼六園は石川県金沢市。"
+  },
+  {
+    section: 2, category: "大問2・問8",
+    text: "東京駅から北陸新幹線で富山県の新高岡駅へ行くとき、通る県を2つ選びなさい。\nア：群馬県\nイ：神奈川県\nウ：石川県\nエ：長野県",
+    type: "multi",
+    choices: ["ア", "イ", "ウ", "エ"],
+    hintDetails: [
+      "ア：北陸新幹線は群馬県（高崎）を通る",
+      "イ：北陸新幹線は神奈川県を通らない",
+      "ウ：北陸新幹線は石川県（金沢）を通るが新高岡は富山",
+      "エ：北陸新幹線は長野県（長野）を通る"
+    ],
+    answer: ["ア", "エ"],
+    explanation: "アとエが正解。北陸新幹線は東京→群馬→長野→新潟→富山の順。新高岡駅は富山県なので、群馬県・長野県を通ります。"
+  },
+  {
+    section: 2, category: "大問2・問9",
+    text: "山梨県と長野県が産量1位・2位を争うくだものは？（2022年）",
+    type: "free",
+    hints: ["ぶどう", "りんご", "もも", "おうとう"],
+    answer: "ぶどう",
+    explanation: "ぶどうが正解。山梨県が生産量1位、長野県が2位（2022年）です。"
+  },
+  {
+    section: 2, category: "大問2・問10",
+    text: "山梨県と静岡県の境にある日本一高い山は？（○○山）",
+    type: "free",
+    hints: ["富士山", "北岳", "奥穂高岳", "間ノ岳"],
+    answer: "富士山",
+    explanation: "富士山が正解。山梨県と静岡県の境に位置する標高3776mの日本最高峰です。"
+  },
+  {
+    section: 2, category: "大問2・問11",
+    text: "新潟県にある、かつて金の生産地で現在はトキが飼育されている島は？（○○島）",
+    type: "free",
+    hints: ["佐渡島", "粟島", "能登島", "飛島"],
+    answer: "佐渡島",
+    altAnswers: ["佐渡"],
+    explanation: "佐渡島が正解。日本最大の離島（本州・北海道・九州・四国を除く）で、トキの保護でも知られます。"
+  },
+  {
+    section: 2, category: "大問2・A積雪",
+    text: "新潟県の平野では積雪期間が長いため米の「□□」地帯となっています。□は？（漢字2字）",
+    type: "free",
+    hints: ["単作", "二毛作", "二期作", "輪作"],
+    answer: "単作",
+    explanation: "単作が正解。積雪で農業できる期間が短く、1年に1回しか作物を作れません。"
+  },
+  {
+    section: 2, category: "大問2・B天竜川",
+    text: "諏訪湖からほぼ真南に流れ出て太平洋に注ぐ川の名前は？（○○川）",
+    type: "free",
+    hints: ["天竜川", "富士川", "球磨川", "最上川"],
+    answer: "天竜川",
+    explanation: "天竜川が正解。長野県から静岡県へ流れ、太平洋（遠州灘）に注ぎます。"
+  },
+  {
+    section: 2, category: "大問2・C信濃川",
+    text: "日本で最も長い川で、新潟県を通り日本海に注ぐ川は？（○○川）",
+    type: "free",
+    hints: ["信濃川", "利根川", "石狩川", "天竜川"],
+    answer: "信濃川",
+    explanation: "信濃川が正解。全長367kmで日本最長。新潟県では越後平野を流れます。"
+  },
+  {
+    section: 2, category: "大問2・D飛騨山脈",
+    text: "富山県南東部にある、黒部ダムがある山脈は？（○○山脈）\nヒント：北アルプスともよばれる",
+    type: "free",
+    hints: ["飛騨山脈", "赤石山脈", "木曽山脈", "鈴鹿山脈"],
+    answer: "飛騨山脈",
+    explanation: "飛騨山脈が正解。北アルプスともよばれ、黒部ダム・立山連峰などがあります。"
+  },
+  {
+    section: 2, category: "大問2・E渥美半島",
+    text: "愛知県南東部にある半島で、豊川用水が引かれ電照菊の栽培がさかんな半島は？（○○半島）",
+    type: "free",
+    hints: ["渥美半島", "知多半島", "伊豆半島", "能登半島"],
+    answer: "渥美半島",
+    explanation: "渥美半島が正解。愛知県南東部に突き出た半島で、電照菊・キャベツなどの栽培がさかんです。"
+  },
+  {
+    section: 2, category: "大問2・F電照菊",
+    text: "菊を栽培するとき電灯を用いる目的は？（20字以内）",
+    type: "text",
+    answer: "開花の時期をおくらせて、出荷の時期を調整するため。",
+    explanation: "菊は日照時間が短くなると花が咲く性質があります。電灯で照らすことで開花を遅らせ、市場に出回りにくい時期に出荷して高値で売ることができます。"
+  },
+  {
+    section: 2, category: "大問2・G棚田",
+    text: "棚田での農作業に人手が必要な理由は？（20字以内）",
+    type: "text",
+    answer: "農業機械が使えないから。",
+    explanation: "棚田は一区画の面積が小さく、傾斜があるため大きな機械を使うことができません。"
+  },
+  {
+    section: 2, category: "大問2・H北陸新幹線",
+    text: "石川県金沢市に駅がある「□新幹線」の□は？（漢字2字）",
+    type: "free",
+    hints: ["北陸", "東海道", "山陽", "上越"],
+    answer: "北陸",
+    explanation: "北陸新幹線が正解。東京〜金沢〜福井・敦賀を結んでいます。"
+  },
+  {
+    section: 2, category: "大問2・Iフェーン",
+    text: "山頂をこえて乾燥した空気が吹き下ろすとき気温が上がる現象をカタカナで何という？",
+    type: "free",
+    hints: ["フェーン現象", "モンスーン", "エルニーニョ", "ラニーニャ"],
+    answer: "フェーン現象",
+    altAnswers: ["フェーン"],
+    explanation: "フェーン現象が正解。新潟県・富山県などで発生しやすい現象です。"
+  },
+  {
+    section: 2, category: "大問2・J静岡",
+    text: "静岡県には政令指定都市が2つあります。県庁所在地の静岡市ともう1つの□市は？",
+    type: "free",
+    hints: ["浜松市", "富士市", "沼津市", "三島市"],
+    answer: "浜松市",
+    altAnswers: ["浜松"],
+    explanation: "静岡市と浜松市の2つが政令指定都市です。浜松市は楽器・オートバイの製造で有名です。"
+  }
 ];
 
-let currentIndex=0, score=0, results=[], shuffled=[];
-let activeSections = new Set([1,2,3]);
-let hintShown=false, currentQ=null;
+var currentIndex = 0;
+var score = 0;
+var results = [];
+var shuffled = [];
+var activeSections = new Set([1, 2]);
+var hintShown = false;
+var currentQ = null;
 
 function toggleSection(btn) {
-  const s=parseInt(btn.dataset.section);
-  if(activeSections.has(s)){if(activeSections.size===1)return;activeSections.delete(s);btn.classList.remove('active');}
-  else{activeSections.add(s);btn.classList.add('active');}
-  document.getElementById('total-count').textContent=allQuestions.filter(q=>activeSections.has(q.section)).length;
-}
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function show(id){document.getElementById(id).classList.remove('hidden');}
-function hide(id){document.getElementById(id).classList.add('hidden');}
-
-function startQuiz(){
-  shuffled=shuffle(allQuestions.filter(q=>activeSections.has(q.section)));
-  currentIndex=0;score=0;results=[];
-  hide('start-screen');show('quiz-screen');showQuestion();
+  var s = parseInt(btn.dataset.section);
+  if (activeSections.has(s)) {
+    if (activeSections.size === 1) return;
+    activeSections.delete(s);
+    btn.classList.remove("active");
+  } else {
+    activeSections.add(s);
+    btn.classList.add("active");
+  }
+  document.getElementById("total-count").textContent =
+    allQuestions.filter(function(q) { return activeSections.has(q.section); }).length;
 }
 
-function showQuestion(){
-  currentQ=shuffled[currentIndex];
-  const q=currentQ, total=shuffled.length;
-  hintShown=false;
-  document.getElementById('q-label').textContent=q.category;
-  document.getElementById('q-counter').textContent=(currentIndex+1)+' / '+total;
-  document.getElementById('prog').style.width=(currentIndex/total*100)+'%';
-  document.getElementById('q-category').textContent=q.category;
-  document.getElementById('q-text').textContent=q.text;
-  hide('answer-area');
-  const ia=document.getElementById('input-area');
-  ia.innerHTML='';
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
 
-  if(q.type==='text'){
-    const note=document.createElement('div');
-    note.className='note-box';
-    note.textContent='記述問題です。自分で考えてから「答えを見る」を押してください。';
+function show(id) { document.getElementById(id).classList.remove("hidden"); }
+function hide(id) { document.getElementById(id).classList.add("hidden"); }
+
+function startQuiz() {
+  shuffled = shuffle(allQuestions.filter(function(q) { return activeSections.has(q.section); }));
+  if (shuffled.length === 0) {
+    alert("選択された範囲に問題がありません。");
+    return;
+  }
+  currentIndex = 0;
+  score = 0;
+  results = [];
+  hide("start-screen");
+  show("quiz-screen");
+  showQuestion();
+}
+
+function showQuestion() {
+  currentQ = shuffled[currentIndex];
+  var q = currentQ;
+  var total = shuffled.length;
+  hintShown = false;
+
+  document.getElementById("q-label").textContent = q.category;
+  document.getElementById("q-counter").textContent = (currentIndex + 1) + " / " + total;
+  document.getElementById("prog").style.width = (currentIndex / total * 100) + "%";
+  document.getElementById("q-category").textContent = q.category;
+  document.getElementById("q-text").textContent = q.text;
+
+  hide("answer-area");
+  var ia = document.getElementById("input-area");
+  ia.innerHTML = "";
+
+  if (q.type === "text") {
+    var note = document.createElement("div");
+    note.className = "note-box";
+    note.textContent = "記述問題です。自分で考えてから「答えを見る」を押してください。";
     ia.appendChild(note);
-    const btn=document.createElement('button');
-    btn.className='btn';
-    btn.textContent='答えを見る';
-    btn.onclick=showTextAnswer;
+    var btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = "答えを見る";
+    btn.onclick = showTextAnswer;
     ia.appendChild(btn);
 
-  } else if(q.type==='multi'){
-    const keys=['ア','イ','ウ','エ'];
-    const note=document.createElement('div');
-    note.className='note-box';
-    note.textContent='正しいものをすべて選んでください';
-    ia.appendChild(note);
-    const row=document.createElement('div');
-    row.className='multi-check-row';
-    (q.choices||keys).forEach(function(c,i){
-      const label=document.createElement('label');
-      label.className='multi-check';
-      const cb=document.createElement('input');
-      cb.type='checkbox';cb.value=keys[i];
-      label.appendChild(cb);
-      const sp=document.createElement('span');
-      sp.textContent=' '+keys[i];
-      label.appendChild(sp);
-      row.appendChild(label);
-    });
-    ia.appendChild(row);
-    const hintBtn=document.createElement('button');
-    hintBtn.className='hint-toggle';
-    hintBtn.textContent='💡 ヒント（各選択肢の内容）を見る';
-    hintBtn.onclick=function(){toggleHint(this);};
-    ia.appendChild(hintBtn);
-    const hintBox=document.createElement('div');
-    hintBox.id='hint-box';hintBox.className='hint-box hidden';
-    const hl=document.createElement('div');hl.className='hint-label';hl.textContent='ヒント';
-    hintBox.appendChild(hl);
-    if(q.hintDetails){
-      const hc=document.createElement('div');
-      hc.style.cssText='font-size:14px;line-height:1.8;color:var(--yellow-text);';
-      hc.innerHTML=q.hintDetails.map(function(d){return '<div style="margin-bottom:4px;">・'+d+'</div>';}).join('');
-      hintBox.appendChild(hc);
+  } else if (q.type === "multi") {
+    var keys = ["ア", "イ", "ウ", "エ"];
+    var note2 = document.createElement("div");
+    note2.className = "note-box";
+    note2.textContent = "正しいものをすべて選んでください";
+    ia.appendChild(note2);
+
+    var row = document.createElement("div");
+    row.className = "multi-check-row";
+    var choices = q.choices || keys;
+    for (var ci = 0; ci < choices.length; ci++) {
+      (function(i) {
+        var label = document.createElement("label");
+        label.className = "multi-check";
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = keys[i];
+        label.appendChild(cb);
+        var sp = document.createElement("span");
+        sp.textContent = " " + keys[i];
+        label.appendChild(sp);
+        row.appendChild(label);
+      })(ci);
     }
-    ia.appendChild(hintBox);
-    const submitBtn=document.createElement('button');
-    submitBtn.className='btn btn-primary';
-    submitBtn.style.marginTop='10px';
-    submitBtn.textContent='答える';
-    submitBtn.onclick=submitMulti;
+    ia.appendChild(row);
+
+    if (q.hintDetails && q.hintDetails.length > 0) {
+      var hintBtn = document.createElement("button");
+      hintBtn.className = "hint-toggle";
+      hintBtn.textContent = "ヒント（各選択肢の内容）を見る";
+      hintBtn.onclick = function() { toggleHint(); };
+      ia.appendChild(hintBtn);
+
+      var hintBox = document.createElement("div");
+      hintBox.id = "hint-box";
+      hintBox.className = "hint-box hidden";
+      var hl = document.createElement("div");
+      hl.className = "hint-label";
+      hl.textContent = "ヒント";
+      hintBox.appendChild(hl);
+      var hc = document.createElement("div");
+      hc.style.cssText = "font-size:14px;line-height:1.8;color:var(--yellow-text);";
+      for (var di = 0; di < q.hintDetails.length; di++) {
+        var dDiv = document.createElement("div");
+        dDiv.style.marginBottom = "4px";
+        dDiv.textContent = "・" + q.hintDetails[di];
+        hc.appendChild(dDiv);
+      }
+      hintBox.appendChild(hc);
+      ia.appendChild(hintBox);
+    }
+
+    var submitBtn = document.createElement("button");
+    submitBtn.className = "btn btn-primary";
+    submitBtn.style.marginTop = "10px";
+    submitBtn.textContent = "答える";
+    submitBtn.onclick = submitMulti;
     ia.appendChild(submitBtn);
 
   } else {
-    const inputRow=document.createElement('div');
-    inputRow.className='input-row';
-    const input=document.createElement('input');
-    input.className='ans-input';input.id='ans-input';
-    input.type='text';input.placeholder='ここに答えを入力…';input.autocomplete='off';
-    input.addEventListener('keydown',function(e){if(e.key==='Enter')submitAnswer();});
-    inputRow.appendChild(input);
-    const submitBtn=document.createElement('button');
-    submitBtn.className='btn btn-primary btn-sm';
-    submitBtn.textContent='答える';
-    submitBtn.onclick=submitAnswer;
-    inputRow.appendChild(submitBtn);
-    ia.appendChild(inputRow);
-    const hintBtn=document.createElement('button');
-    hintBtn.className='hint-toggle';
-    hintBtn.textContent='💡 ヒント（選択肢）を見る';
-    hintBtn.onclick=function(){toggleHint(this);};
-    ia.appendChild(hintBtn);
-    const hintBox=document.createElement('div');
-    hintBox.id='hint-box';hintBox.className='hint-box hidden';
-    const hl=document.createElement('div');hl.className='hint-label';hl.textContent='ヒント：選択肢';
-    hintBox.appendChild(hl);
-    const hintChoices=document.createElement('div');
-    hintChoices.className='hint-choices';
-    q.hints.forEach(function(h){
-      const sp=document.createElement('span');
-      sp.className='hint-choice';sp.textContent=h;
-      sp.onclick=function(){fillHint(h);};
-      hintChoices.appendChild(sp);
+    var inputRow = document.createElement("div");
+    inputRow.className = "input-row";
+
+    var input = document.createElement("input");
+    input.className = "ans-input";
+    input.id = "ans-input";
+    input.type = "text";
+    input.placeholder = "ここに答えを入力…";
+    input.autocomplete = "off";
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") submitAnswer();
     });
-    hintBox.appendChild(hintChoices);
-    ia.appendChild(hintBox);
-    setTimeout(function(){const el=document.getElementById('ans-input');if(el)el.focus();},100);
+    inputRow.appendChild(input);
+
+    var sbtn = document.createElement("button");
+    sbtn.className = "btn btn-primary btn-sm";
+    sbtn.textContent = "答える";
+    sbtn.onclick = submitAnswer;
+    inputRow.appendChild(sbtn);
+    ia.appendChild(inputRow);
+
+    if (q.hints && q.hints.length > 0) {
+      var hintBtn2 = document.createElement("button");
+      hintBtn2.className = "hint-toggle";
+      hintBtn2.textContent = "ヒント（選択肢）を見る";
+      hintBtn2.onclick = function() { toggleHint(); };
+      ia.appendChild(hintBtn2);
+
+      var hintBox2 = document.createElement("div");
+      hintBox2.id = "hint-box";
+      hintBox2.className = "hint-box hidden";
+      var hl2 = document.createElement("div");
+      hl2.className = "hint-label";
+      hl2.textContent = "ヒント：選択肢";
+      hintBox2.appendChild(hl2);
+
+      var hintChoices = document.createElement("div");
+      hintChoices.className = "hint-choices";
+      for (var hi = 0; hi < q.hints.length; hi++) {
+        (function(h) {
+          var sp = document.createElement("span");
+          sp.className = "hint-choice";
+          sp.textContent = h;
+          sp.onclick = function() { fillHint(h); };
+          hintChoices.appendChild(sp);
+        })(q.hints[hi]);
+      }
+      hintBox2.appendChild(hintChoices);
+      ia.appendChild(hintBox2);
+    }
+
+    setTimeout(function() {
+      var el = document.getElementById("ans-input");
+      if (el) el.focus();
+    }, 100);
   }
 }
 
-function toggleHint(btn){const box=document.getElementById('hint-box');if(!box)return;box.classList.toggle('hidden');hintShown=true;}
-function fillHint(val){const input=document.getElementById('ans-input');if(input){input.value=val;input.focus();}}
-function normalize(str){return str.trim().replace(/\s+/g,'').replace(/[　]/g,'').toLowerCase().replace(/[ａ-ｚＡ-Ｚ０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-0xFEE0);});}
-function checkAnswer(user,q){const u=normalize(user);if(u===normalize(q.answer))return true;if(q.altAnswers)for(var i=0;i<q.altAnswers.length;i++)if(u===normalize(q.altAnswers[i]))return true;return false;}
+function toggleHint() {
+  var box = document.getElementById("hint-box");
+  if (!box) return;
+  box.classList.toggle("hidden");
+  hintShown = true;
+}
 
-function submitAnswer(){
-  const q=currentQ,input=document.getElementById('ans-input');
-  if(!input||!input.value.trim())return;
-  input.disabled=true;
-  showAnswerBox(checkAnswer(input.value.trim(),q),q);
+function fillHint(val) {
+  var input = document.getElementById("ans-input");
+  if (input) { input.value = val; input.focus(); }
 }
-function submitMulti(){
-  const q=currentQ;
-  const checked=[...document.querySelectorAll('.multi-check input:checked')].map(function(el){return el.value;}).sort();
-  document.querySelectorAll('.multi-check input').forEach(function(el){el.disabled=true;});
-  showAnswerBox(JSON.stringify(checked)===JSON.stringify([...q.answer].sort()),q);
-}
-function showTextAnswer(){
-  const q=currentQ;
-  document.getElementById('input-area').innerHTML='';
-  show('answer-area');
-  const ab=document.getElementById('answer-box');
-  ab.className='answer-box neutral';
-  ab.innerHTML='<div class="mark">📝 模範解答</div><div class="correct-ans">'+q.answer+'</div><div class="exp">'+q.explanation+'</div>';
-  results.push({q:q,correct:null});
-}
-function showAnswerBox(isCorrect,q){
-  document.getElementById('input-area').innerHTML='';
-  show('answer-area');
-  if(isCorrect)score++;
-  const ab=document.getElementById('answer-box');
-  ab.className='answer-box '+(isCorrect?'correct':'wrong');
-  const ansText=Array.isArray(q.answer)?q.answer.join('・'):q.answer;
-  const hintNote=hintShown&&isCorrect?'<div style="font-size:12px;margin-top:4px;opacity:0.7;">（ヒントあり）</div>':'';
-  ab.innerHTML='<div class="mark">'+(isCorrect?'◯ 正解！':'✕ 不正解')+'</div>'+hintNote+'<div class="correct-ans">正解：'+ansText+'</div><div class="exp">'+q.explanation+'</div>';
-  results.push({q:q,correct:isCorrect});
-}
-function nextQuestion(){currentIndex++;if(currentIndex>=shuffled.length)showResult();else showQuestion();}
-function showResult(){
-  hide('quiz-screen');show('result-screen');
-  document.getElementById('retry-wrong-btn').style.display='block';
-  const judged=results.filter(function(r){return r.correct!==null;});
-  const sc=judged.filter(function(r){return r.correct;}).length;
-  document.getElementById('result-score').textContent=sc+' / '+judged.length+' 問正解';
-  const pct=judged.length>0?Math.round(sc/judged.length*100):0;
-  document.getElementById('result-msg').textContent=pct>=80?'🎉 すばらしい！よく復習できています':pct>=60?'もう少し！もう一度チャレンジしよう':'もう一度しっかり復習しよう！';
-  const wrongCount=results.filter(function(r){return r.correct===false;}).length;
-  const rb=document.getElementById('retry-wrong-btn');
-  if(wrongCount===0)rb.style.display='none';
-  else rb.textContent='まちがえた '+wrongCount+' 問だけもう一度 →';
-  document.getElementById('result-detail').innerHTML=results.map(function(r){
-    const icon=r.correct===null?'📝':r.correct?'◯':'✕';
-    const cls=r.correct===null?'memo':r.correct?'ok':'ng';
-    return '<div class="result-item"><span class="icon '+cls+'">'+icon+'</span><span class="detail">'+r.q.category+'：'+r.q.text.slice(0,28)+'…</span></div>';
-  }).join('');
-}
-function retryWrong(){
-  const wrong=results.filter(function(r){return r.correct===false;}).map(function(r){return r.q;});
-  if(!wrong.length)return;
-  shuffled=shuffle(wrong);currentIndex=0;score=0;results=[];
-  hide('result-screen');show('quiz-screen');showQuestion();
-}
-function restartQuiz(){hide('result-screen');startQuiz();}
-function goHome(){hide('result-screen');show('start-screen');}
 
-document.getElementById('total-count').textContent=allQuestions.length;
+function normalize(str) {
+  return str.trim()
+    .replace(/\s+/g, "")
+    .replace(/　/g, "")
+    .toLowerCase()
+    .replace(/[ａ-ｚＡ-Ｚ０-９]/g, function(c) {
+      return String.fromCharCode(c.charCodeAt(0) - 0xFEE0);
+    });
+}
+
+function checkAnswer(user, q) {
+  var u = normalize(user);
+  if (u === normalize(q.answer)) return true;
+  if (q.altAnswers) {
+    for (var i = 0; i < q.altAnswers.length; i++) {
+      if (u === normalize(q.altAnswers[i])) return true;
+    }
+  }
+  return false;
+}
+
+function submitAnswer() {
+  var input = document.getElementById("ans-input");
+  if (!input || !input.value.trim()) return;
+  input.disabled = true;
+  showAnswerBox(checkAnswer(input.value.trim(), currentQ), currentQ);
+}
+
+function submitMulti() {
+  var checked = [];
+  var cbs = document.querySelectorAll(".multi-check input:checked");
+  for (var i = 0; i < cbs.length; i++) { checked.push(cbs[i].value); }
+  checked.sort();
+  var allCbs = document.querySelectorAll(".multi-check input");
+  for (var j = 0; j < allCbs.length; j++) { allCbs[j].disabled = true; }
+  var correct = JSON.stringify(checked) === JSON.stringify(currentQ.answer.slice().sort());
+  showAnswerBox(correct, currentQ);
+}
+
+function showTextAnswer() {
+  var q = currentQ;
+  document.getElementById("input-area").innerHTML = "";
+  show("answer-area");
+  var ab = document.getElementById("answer-box");
+  ab.className = "answer-box neutral";
+  ab.innerHTML = "<div class='mark'>模範解答</div><div class='correct-ans'>" + q.answer + "</div><div class='exp'>" + q.explanation + "</div>";
+  results.push({ q: q, correct: null });
+}
+
+function showAnswerBox(isCorrect, q) {
+  document.getElementById("input-area").innerHTML = "";
+  show("answer-area");
+  if (isCorrect) score++;
+  var ab = document.getElementById("answer-box");
+  ab.className = "answer-box " + (isCorrect ? "correct" : "wrong");
+  var ansText = Array.isArray(q.answer) ? q.answer.join("・") : q.answer;
+  var hintNote = (hintShown && isCorrect) ? "<div style='font-size:12px;margin-top:4px;opacity:0.7;'>（ヒントあり）</div>" : "";
+  ab.innerHTML =
+    "<div class='mark'>" + (isCorrect ? "◯ 正解！" : "✕ 不正解") + "</div>" +
+    hintNote +
+    "<div class='correct-ans'>正解：" + ansText + "</div>" +
+    "<div class='exp'>" + q.explanation + "</div>";
+  results.push({ q: q, correct: isCorrect });
+}
+
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= shuffled.length) {
+    showResult();
+  } else {
+    showQuestion();
+  }
+}
+
+function showResult() {
+  hide("quiz-screen");
+  show("result-screen");
+  var judged = results.filter(function(r) { return r.correct !== null; });
+  var sc = judged.filter(function(r) { return r.correct; }).length;
+  document.getElementById("result-score").textContent = sc + " / " + judged.length + " 問正解";
+  var pct = judged.length > 0 ? Math.round(sc / judged.length * 100) : 0;
+  document.getElementById("result-msg").textContent =
+    pct >= 80 ? "すばらしい！よく復習できています" :
+    pct >= 60 ? "もう少し！もう一度チャレンジしよう" :
+    "もう一度しっかり復習しよう！";
+  var wrongCount = results.filter(function(r) { return r.correct === false; }).length;
+  var rb = document.getElementById("retry-wrong-btn");
+  if (wrongCount === 0) {
+    rb.style.display = "none";
+  } else {
+    rb.style.display = "block";
+    rb.textContent = "まちがえた " + wrongCount + " 問だけもう一度 →";
+  }
+  var html = "";
+  for (var i = 0; i < results.length; i++) {
+    var r = results[i];
+    var icon = r.correct === null ? "📝" : r.correct ? "◯" : "✕";
+    var cls = r.correct === null ? "memo" : r.correct ? "ok" : "ng";
+    var txt = r.q.text.replace(/\n/g, " ").slice(0, 28);
+    html += "<div class='result-item'><span class='icon " + cls + "'>" + icon + "</span><span class='detail'>" + r.q.category + "：" + txt + "…</span></div>";
+  }
+  document.getElementById("result-detail").innerHTML = html;
+}
+
+function retryWrong() {
+  var wrong = [];
+  for (var i = 0; i < results.length; i++) {
+    if (results[i].correct === false) wrong.push(results[i].q);
+  }
+  if (!wrong.length) return;
+  shuffled = shuffle(wrong);
+  currentIndex = 0;
+  score = 0;
+  results = [];
+  hide("result-screen");
+  show("quiz-screen");
+  showQuestion();
+}
+
+function restartQuiz() {
+  hide("result-screen");
+  startQuiz();
+}
+
+function goHome() {
+  hide("result-screen");
+  show("start-screen");
+}
+
+document.getElementById("total-count").textContent = allQuestions.length;
 </script>
 </body>
 </html>
